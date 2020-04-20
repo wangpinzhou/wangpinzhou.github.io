@@ -1,0 +1,30 @@
+[v-cloak]{
+  display: none;
+}
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  /*100vh == height:100%,元素撑开与屏幕等高*/
+
+}
+.navbar{
+  margin-bottom: 0px;
+}
+
+#content {
+  flex: 1;
+  /* display: flex; */
+}
+
+.c-left{
+    background: #f5f5f5;
+}
+
+.c-right{
+  margin: 15px;
+}
+
+.navbar-nav>li.active {
+  border-bottom: 5px solid #6cbae7;
+}

@@ -1,0 +1,165 @@
+<template>
+  <div class="left_menu">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+      <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+          <li class="active">
+            <ul class="nav nav-second-level">
+              <li v-for="(item,index) in list" :key="index">
+                <router-link :to="item.to">{{item.val}}</router-link>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+</template>
+
+<script>
+module.exports = {
+  // data() {
+  //   // return {
+  //   //   footer: "footer"
+  //   // };
+  // }
+  props: {
+    list: "Array"
+  },
+  data() {
+    return {};
+  },
+  mounted() {
+    $("#side-menu").metisMenu();
+  }
+};
+</script>
+
+<style scoped>
+.left_menu {
+  background: #f5f5f5;
+}
+.nav > li > a {
+  color: #a7b1c2;
+  font-weight: 600;
+  padding: 14px 20px 14px 25px;
+}
+.nav.navbar-right > li > a {
+  color: #999c9e;
+}
+.nav > li.active > a {
+  color: #ffffff;
+  background: #000;
+}
+.navbar-default .nav > li > a:hover,
+.navbar-default .nav > li > a:focus {
+  background-color: #6cbae7;
+  color: white;
+}
+.nav .open > a,
+.nav .open > a:hover,
+.nav .open > a:focus {
+  background: #fff;
+}
+.nav.navbar-top-links > li > a:hover,
+.nav.navbar-top-links > li > a:focus {
+  background-color: transparent;
+}
+.nav > li > a i {
+  margin-right: 6px;
+}
+.navbar {
+  border: 0;
+  padding: 15px;
+}
+.navbar-default {
+  background-color: transparent;
+  border-color: #6cbae7;
+}
+.navbar-top-links li {
+  display: inline-block;
+}
+.navbar-top-links li:last-child {
+  margin-right: 40px;
+}
+.body-small .navbar-top-links li:last-child {
+  margin-right: 0;
+}
+.navbar-top-links li a {
+  padding: 20px 10px;
+  min-height: 50px;
+}
+.metismenu {
+  width: 220px;
+  padding: 15px;
+}
+
+/* .sidebar-nav {
+  background: #212529;
+}
+.sidebar-nav ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  background: #343a40;
+}
+
+.sidebar-nav .metismenu {
+  background: #212529;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.sidebar-nav .metismenu li + li {
+  margin-top: 5px;
+}
+
+.sidebar-nav .metismenu li:first-child {
+  margin-top: 5px;
+}
+.sidebar-nav .metismenu li:last-child {
+  margin-bottom: 5px;
+}
+
+.sidebar-nav .metismenu > li {
+
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+}
+.sidebar-nav .metismenu a {
+  position: relative;
+  display: block;
+  padding: 13px 15px;
+  color: #adb5bd;
+  outline-width: 0;
+  transition: all 0.3s ease-out;
+}
+
+.sidebar-nav .metismenu ul a {
+  padding: 10px 15px 10px 30px;
+}
+
+.sidebar-nav .metismenu ul ul a {
+  padding: 10px 15px 10px 45px;
+}
+
+.sidebar-nav .metismenu a:hover,
+.sidebar-nav .metismenu a:focus,
+.sidebar-nav .metismenu a:active,
+.sidebar-nav .metismenu .mm-active > a {
+  color: #f8f9fa;
+  text-decoration: none;
+  background: #0b7285;
+} */
+</style>
