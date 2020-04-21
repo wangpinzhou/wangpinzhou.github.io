@@ -22,7 +22,7 @@ module.exports = {
 
 <style scoped>
 .container-full {
-  height: 50px;
+  height: 35px;
   background: #000;
   color: #ffffff;
   opacity: 0.5;

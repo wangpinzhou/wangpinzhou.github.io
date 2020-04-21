@@ -7,6 +7,12 @@ $(function () {
   const w_html = httpVueLoader('./components/html/w-html.vue')
   const w_js = httpVueLoader('./components/javascript/w-js.vue')
 
+  const w_cj = httpVueLoader('./components/cj/w_cj.vue')
+  const w_cj_layer = httpVueLoader('./components/cj/w_cj_layer.vue')
+  const w_cj_swal2 = httpVueLoader('./components/cj/w_cj_swal2.vue')
+  const w_cj_edit = httpVueLoader('./components/cj/w_cj_edit.vue')
+
+  
   const w_html_1 = httpVueLoader('./components/html/main.vue')
   const w_html_2 = httpVueLoader('./components/html/main2.vue')
   const w_css_1 = httpVueLoader('./components/css/main.vue')
@@ -60,6 +66,20 @@ $(function () {
       ]
 
     },
+    {
+      path: '/w_cj', component: w_cj,
+      children: [
+        // 当 /user/:id 匹配成功，
+        // UserHome 会被渲染在 User 的 <router-view> 中
+        { path: '/', component: w_cj_layer },
+        { path: '/w_cj_layer', component: w_cj_layer },
+        { path: '/w_cj_swal2', component: w_cj_swal2 },
+        { path: '/w_cj_edit', component: w_cj_edit },
+
+        // ...其他子路由
+      ]
+
+    },
   ]
 
   const router = new VueRouter({
@@ -80,9 +100,7 @@ $(function () {
         { to : '/w_html', val: 'HTML'},
         { to: '/w_css', val: 'CSS'},
         { to: '/w_js', val: 'JS'},
-        { to: '/w_xj', val: '插件'},
-        { to: '/w_xj', val: '插件'},
-        { to: '/w_xj', val: '插件'},
+        { to: '/w_cj', val: '插件'},
       ]
 
     },

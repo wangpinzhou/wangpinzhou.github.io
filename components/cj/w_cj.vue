@@ -28,19 +28,47 @@ module.exports = {
             {
               id: "",
               class: "",
-              href:
-                "/hpiApp/web-supplier/purchaseV2/stockInBill.jsp?openType=1",
-              to: "/w_html_1",
+              to: "/w_cj_layer",
               title: "layer.js",
               target: "_self"
-            }
+            },
+            {
+              id: "",
+              class: "",
+              to: "/w_cj_swal2",
+              title: "sweetAlert2",
+              target: "_self"
+            },
+          ]
+        },
+        {
+          id: "",
+          class: "",
+          href: "",
+          title: "富文本编辑",
+          target: "_self",
+          subList: [
+            {
+              id: "",
+              class: "",
+              to: "/w_cj_edit",
+              title: "wangEdit",
+              target: "_self"
+            },
+            // {
+            //   id: "",
+            //   class: "",
+            //   to: "/w_cj_edit",
+            //   title: "sweetAlert2",
+            //   target: "_self"
+            // },
           ]
         }
       ]
     };
   },
   mounted() {
-    $("#menu1").metisMenu();
+    // $("#menu1").metisMenu();
   }
 };
 </script>

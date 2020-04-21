@@ -3,10 +3,22 @@
     <nav class="navbar-default navbar-static-side" role="navigation">
       <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
-          <li class="active">
-            <ul class="nav nav-second-level">
-              <li v-for="(item,index) in list" :key="index">
-                <router-link :to="item.to">{{item.val}}</router-link>
+          <li v-for="(item,index) in list" :key="index" class="active" :id="item.id">
+            <a href="javascript:void(0);" :data-href="item.href">
+              <i class="fa fa-file-text-o" style="width: 12.06px;"></i>
+              <span class="nav-label">{{item.title}}</span>
+              <span class="fa fa-arrow"></span>
+            </a>
+            <ul class="nav nav-second-level collapse">
+              <li
+                v-for="(subItem,subIndex) in item.subList"
+                :key="subIndex"
+                class="active"
+                :id="subItem.id"
+              >
+                <router-link :to="subItem.to">
+                  <a href="javascript:;">{{subItem.title}}</a>
+                </router-link>
               </li>
             </ul>
           </li>

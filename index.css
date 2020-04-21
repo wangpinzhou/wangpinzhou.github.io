@@ -28,3 +28,31 @@
 .navbar-nav>li.active {
   border-bottom: 5px solid #6cbae7;
 }
+
+
+
+/* 应要求修改layer 样式  确认 按键右边,  取消按键左边  */
+.xubox_botton .xubox_botton3 {
+  margin-left: -80px !important;
+}
+
+.xubox_botton .xubox_botton2 {
+  margin-left: 10px !important;
+}
+
+.layui-layer-btn0 {
+  float: right !important;
+}
+
+.layui-layer-btn:after {
+  content: '';
+  display: block;
+  clear: both;
+  height: 0;
+}
+
+.layui-layer-btn .layui-layer-btn0 {
+  background-color: #23c6c8 !important;
+  border-color: #23c6c8 !important;
+  color: #fff;
+}
