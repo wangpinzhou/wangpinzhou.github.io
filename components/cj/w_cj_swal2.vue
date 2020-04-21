@@ -86,7 +86,9 @@ module.exports = {
       list: [{}]
     };
   },
-  mounted() {},
+  mounted() {
+
+  },
   methods: {
     swal(key) {
       // "success", "error", "warning", "info" or "question"

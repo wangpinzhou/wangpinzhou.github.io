@@ -1,90 +1,8 @@
+import router from './router/index.js';
 $(function () {
 
 
   var that;
-
-  const w_css = httpVueLoader('./components/css/w-css.vue')
-  const w_html = httpVueLoader('./components/html/w-html.vue')
-  const w_js = httpVueLoader('./components/javascript/w-js.vue')
-
-  const w_cj = httpVueLoader('./components/cj/w_cj.vue')
-  const w_cj_layer = httpVueLoader('./components/cj/w_cj_layer.vue')
-  const w_cj_swal2 = httpVueLoader('./components/cj/w_cj_swal2.vue')
-  const w_cj_edit = httpVueLoader('./components/cj/w_cj_edit.vue')
-
-  
-  const w_html_1 = httpVueLoader('./components/html/main.vue')
-  const w_html_2 = httpVueLoader('./components/html/main2.vue')
-  const w_css_1 = httpVueLoader('./components/css/main.vue')
-  const w_css_2 = httpVueLoader('./components/css/main2.vue')
-  const w_js_1 = httpVueLoader('./components/javascript/main.vue')
-  const w_js_2 = httpVueLoader('./components/javascript/main2.vue')
-
-
-  // 2. 定义路由
-  // 每个路由应该映射一个组件。 其中"component" 可以是
-  // 通过 Vue.extend() 创建的组件构造器，
-  // 或者，只是一个组件配置对象。
-  // 我们晚点再讨论嵌套路由。
-  const routes = [
-    { path: '/', component: w_html_1 },
-    {
-      path: '/w_html', component: w_html,
-      children: [
-        // 当 /user/:id 匹配成功，
-        // UserHome 会被渲染在 User 的 <router-view> 中
-        { path: '/', component: w_html_1 },
-        { path: '/w_html_1', component: w_html_1 },
-        { path: '/w_html_2', component: w_html_2 },
-
-        // ...其他子路由
-      ]
-    },
-    {
-      path: '/w_css', component: w_css,
-      children: [
-        // 当 /user/:id 匹配成功，
-        // UserHome 会被渲染在 User 的 <router-view> 中
-        { path: '/', component: w_css_1 },
-        { path: '/w_css_1', component: w_css_1 },
-        { path: '/w_css_2', component: w_css_2 },
-
-        // ...其他子路由
-      ]
-
-    },
-    {
-      path: '/w_js', component: w_js,
-      children: [
-        // 当 /user/:id 匹配成功，
-        // UserHome 会被渲染在 User 的 <router-view> 中
-        { path: '/', component: w_js_1 },
-        { path: '/w_js_1', component: w_js_1 },
-        { path: '/w_js_2', component: w_js_2 },
-
-        // ...其他子路由
-      ]
-
-    },
-    {
-      path: '/w_cj', component: w_cj,
-      children: [
-        // 当 /user/:id 匹配成功，
-        // UserHome 会被渲染在 User 的 <router-view> 中
-        { path: '/', component: w_cj_layer },
-        { path: '/w_cj_layer', component: w_cj_layer },
-        { path: '/w_cj_swal2', component: w_cj_swal2 },
-        { path: '/w_cj_edit', component: w_cj_edit },
-
-        // ...其他子路由
-      ]
-
-    },
-  ]
-
-  const router = new VueRouter({
-    routes // (缩写) 相当于 routes: routes
-  })
 
 
   var vm = new Vue({
@@ -95,12 +13,12 @@ $(function () {
     },
     data: {
       // test: '不用 webpack 使用 vue 开发的项目'
-      activeNav : 0,
-      navList:[
-        { to : '/w_html', val: 'HTML'},
-        { to: '/w_css', val: 'CSS'},
-        { to: '/w_js', val: 'JS'},
-        { to: '/w_cj', val: '插件'},
+      activeNav: 0,
+      navList: [
+        { to: '/w_html', val: 'HTML' },
+        { to: '/w_css', val: 'CSS' },
+        { to: '/w_js', val: 'JS' },
+        { to: '/w_cj', val: '插件' },
       ]
 
     },
@@ -118,6 +36,49 @@ $(function () {
       }
     },
   })
+
+
+
+  // 给全部 pre  代码快添加 复制按键 ; 按键使用:after 伪类 生成 ;
+
+  $("body").on("click", "pre", function (ev) {
+    var textArea = document.createElement("textarea");
+
+    // Place in top-left corner of screen regardless of scroll position.
+    textArea.style.position = "fixed";
+    textArea.style.top = 0;
+    textArea.style.left = 0;
+
+    // Ensure it has a small width and height. Setting to 1px / 1em
+    // doesn't work as this gives a negative w/h on some browsers.
+    textArea.style.width = "2em";
+    textArea.style.height = "2em";
+    textArea.style.opacity = "0";
+
+    // We don't need padding, reducing the size if it does flash render.
+    textArea.style.padding = 0;
+
+    // Clean up any borders.
+    textArea.style.border = "none";
+    textArea.style.outline = "none";
+    textArea.style.boxShadow = "none";
+
+    // Avoid flash of white box if rendered for any reason.
+    textArea.style.background = "transparent";
+
+    //Set value to text to be copied
+    textArea.value = $(this).html();
+
+    document.body.appendChild(textArea);
+    textArea.select();
+
+    try {
+      document.execCommand("copy");
+      layer.msg(`复制完成`)
+    } catch (err) {
+      layer.msg(`复制失败`)
+    }
+  });
 })
 
 

@@ -9,6 +9,7 @@
     <button class="btn btn-info" @click="msg">msg</button>
     <button class="btn btn-info" @click="msgIcon">msgIcon</button>
     <button class="btn btn-info" @click="msgCallback">msgCallback</button>
+    <button class="btn btn-warning" @click="alert">alert</button>
     <button class="btn btn-success" @click="confirm">confirm</button>
     <button class="btn btn-warning" @click="prompt">prompt</button>
     <button class="btn btn-primary" @click="openDom">openDom</button>
@@ -79,6 +80,9 @@ module.exports = {
         // alert('msg');
         layer.msg("msgCallback完成了", { icon: 1 });
       });
+    },
+    alert(){
+      layer.alert('alert');
     },
     confirm() {
       layer.confirm(

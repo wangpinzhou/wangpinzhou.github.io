@@ -1,6 +1,7 @@
-[v-cloak]{
+[v-cloak] {
   display: none;
 }
+
 #app {
   display: flex;
   flex-direction: column;
@@ -8,7 +9,8 @@
   /*100vh == height:100%,元素撑开与屏幕等高*/
 
 }
-.navbar{
+
+.navbar {
   margin-bottom: 0px;
 }
 
@@ -17,11 +19,11 @@
   /* display: flex; */
 }
 
-.c-left{
-    background: #f5f5f5;
+.c-left {
+  background: #f5f5f5;
 }
 
-.c-right{
+.c-right {
   margin: 15px;
 }
 
@@ -55,4 +57,56 @@
   background-color: #23c6c8 !important;
   border-color: #23c6c8 !important;
   color: #fff;
+}
+
+
+pre:after {
+  pointer-events: auto;
+  content: "复制";
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background-color: #ccc;
+  color: #fff;
+  padding: 2px 4px;
+  cursor: pointer;
+}
+
+pre {
+  position: relative;
+  pointer-events: none;
+}
+
+
+.pre-wrapper {
+  position: relative;
+}
+
+.pre-wrapper pre {
+  padding-top: 25px;
+}
+
+.pre-wrapper .copy-snippet {
+  border-radius: 0;
+  min-width: 55px;
+  background: none repeat scroll 0 0 transparent;
+  border: 1px solid #bbb;
+  color: #26589F;
+  font-family: 'HELEVETICA', sans-serif;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 1.42rem;
+  margin: 0;
+  padding: 0px 5px;
+  text-align: center;
+  text-decoration: none;
+  text-indent: 0;
+  position: absolute;
+  background: #ccc;
+  top: 0;
+  right: 0;
+}
+
+.pre-wrapper .copy-snippet:disabled {
+  color: #555;
 }

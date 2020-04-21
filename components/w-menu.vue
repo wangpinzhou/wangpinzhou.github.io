@@ -61,7 +61,8 @@ module.exports = {
 }
 .nav > li.active > a {
   color: #ffffff;
-  background: #000;
+  background: #666;
+  /* background: #000; */
 }
 .navbar-default .nav > li > a:hover,
 .navbar-default .nav > li > a:focus {
