@@ -28,11 +28,5 @@ module.exports = {
 </script>
 
 <style scoped>
-.main {
-  display: flex;
-}
 
-.c-right {
-  flex: 1;
-}
 </style>

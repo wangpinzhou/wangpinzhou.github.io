@@ -13,7 +13,7 @@
 </head>
 
 <body>
-  <div id="app">
+  <div id="app" v-cloak>
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -31,7 +31,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li :class="{active : index == activeNav}" v-for="(item ,index) in navList" :key="index" @click="activeNav = index">
+            <li :class="{active : index == activeNav}" v-for="(item ,index) in navList" :key="index"
+              @click="activeNav = index">
               <router-link :to="item.to">
                 <a href="javascript:;">
                   {{item.val}}
@@ -95,7 +96,7 @@
   <script src="https://cdn.bootcss.com/dom-to-image/2.2.0/dom-to-image.js"></script>
   <script src="https://cdn.bootcss.com/FileSaver.js/2014-11-29/FileSaver.js"></script>
   <script type="text/javascript" src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
-
+  <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
 
   <!-- <script src="./router/index.js"></script> -->
   <!-- 全部的侧边栏菜单 -->

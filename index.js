@@ -1,10 +1,6 @@
 import router from './router/index.js';
 $(function () {
-
-
   var that;
-
-
   var vm = new Vue({
     router,
     el: '#app',
@@ -78,7 +74,8 @@ $(function () {
     } catch (err) {
       layer.msg(`复制失败`)
     }
-  });
+  })
+
 })
 
 

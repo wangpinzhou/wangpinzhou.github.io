@@ -1,6 +1,6 @@
 <template>
   <div class="left_menu">
-    <nav class="navbar-default navbar-static-side" role="navigation">
+    <nav class="navbar-default navbar-static-side" :class="{'hide': !sideBarStatus}" role="navigation">
       <div class="sidebar-collapse">
         <ul class="nav metismenu" id="side-menu">
           <li v-for="(item,index) in list" :key="index" class="active" :id="item.id">
@@ -25,31 +25,52 @@
         </ul>
       </div>
     </nav>
+
+    <i class="glyphicon show-min" :class="{'glyphicon-indent-right text-info': sideBarStatus, 'glyphicon-indent-left text-danger': !sideBarStatus }" title="显示/隐藏侧边栏菜单" @click="sideBarStatus = !sideBarStatus"></i>
   </div>
 </template>
 
 <script>
 module.exports = {
-  // data() {
-  //   // return {
-  //   //   footer: "footer"
-  //   // };
-  // }
   props: {
     list: "Array"
   },
   data() {
-    return {};
+    return {
+      sideBarStatus: true,
+    };
   },
   mounted() {
     $("#side-menu").metisMenu();
+
+    var that = this;
+    $(window).on("resize", function() {
+      if ($(window).width() <= 800) {
+        that.sideBarStatus = false;
+      }else{
+        that.sideBarStatus = true;
+      }
+    });
+  },
+  methods: {
+
   }
 };
 </script>
 
 <style scoped>
+.show-min {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 20px;
+  cursor: pointer;
+  /* padding: 10px; */
+}
 .left_menu {
   background: #f5f5f5;
+  position: relative;
+  padding-right: 30px;
 }
 .nav > li > a {
   color: #a7b1c2;

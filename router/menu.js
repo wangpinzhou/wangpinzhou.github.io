@@ -127,6 +127,22 @@ const menuList = {
           target: "_self"
         }
       ]
+    },
+    {
+      id: "",
+      class: "",
+      href: "",
+      title: "二维码",
+      target: "_self",
+      subList: [
+        {
+          id: "",
+          class: "",
+          to: "/w_cj_code",
+          title: "qrcode",
+          target: "_self"
+        }
+      ]
     }
   ]
 
