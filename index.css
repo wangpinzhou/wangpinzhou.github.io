@@ -2,6 +2,28 @@
   display: none;
 }
 
+
+/* div 滚动条样式美化*/
+div::-webkit-scrollbar {
+  width: 12px;
+  height: 12px
+}
+
+div::-webkit-scrollbar-thumb {
+  border-width: 2px;
+  border-style:
+    solid;
+  border-color: #fff;
+  border-radius: 6px;
+  background-color: #c6c6c6
+}
+
+div::-webkit-scrollbar-thumb:hover {
+  background: #999
+}
+
+
+
 #app {
   display: flex;
   flex-direction: column;

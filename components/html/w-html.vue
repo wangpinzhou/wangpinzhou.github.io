@@ -17,26 +17,8 @@ module.exports = {
   },
   data() {
     return {
-      list: [
-        {
-          id: "",
-          class: "",
-          href: "",
-          title: "弹出层",
-          target: "_self",
-          subList: [
-            {
-              id: "",
-              class: "",
-              href:
-                "/hpiApp/web-supplier/purchaseV2/stockInBill.jsp?openType=1",
-              to: "/w_html_1",
-              title: "layer.js",
-              target: "_self"
-            }
-          ]
-        }
-      ]
+      list : menuList.htmlList,
+
     };
   },
   mounted() {

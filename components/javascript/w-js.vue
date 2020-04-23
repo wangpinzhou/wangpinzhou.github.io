@@ -11,26 +11,18 @@
 </template>
 
 <script>
+// import menuList form '../../router/menu'
 module.exports = {
   components: {
     "w-menu": httpVueLoader("/components/w-menu.vue")
   },
   data() {
     return {
-      list: [
-        {
-          to: "/w_js_1",
-          val: "bootstrapTable合并"
-        },
-        {
-          to: "/w_js_2",
-          val: "domtoimage"
-        }
-      ]
-    };
+      list: menuList.jsList,
+
+    }
   },
   mounted() {
-    $("#menu1").metisMenu();
   }
 };
 </script>
@@ -40,15 +32,7 @@ module.exports = {
   display: flex;
 }
 
-#content {
-  background: #cccccc;
-}
-.c-left {
-  width: 220px;
-  background: #ccc;
-}
 .c-right {
   flex: 1;
-  background: #fff;
 }
 </style>
