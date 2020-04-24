@@ -1,7 +1,7 @@
 <template>
   <div class="left_menu">
-    <nav class="navbar-default navbar-static-side" :class="{'hide': !sideBarStatus}" role="navigation">
-      <div class="sidebar-collapse">
+    <nav class="navbar-default navbar-static-side" role="navigation">
+      <div class="sidebar-collapse" :class="{'hide': !sideBarStatus}">
         <ul class="nav metismenu" id="side-menu">
           <li v-for="(item,index) in list" :key="index" class="active" :id="item.id">
             <a href="javascript:void(0);" :data-href="item.href">
@@ -26,7 +26,12 @@
       </div>
     </nav>
 
-    <i @click="changeBar" class="glyphicon show-min" :class="{'glyphicon-indent-right text-info': sideBarStatus, 'glyphicon-indent-left text-danger': !sideBarStatus }" title="显示/隐藏侧边栏菜单"></i>
+    <i
+      @click="changeBar"
+      class="glyphicon show-min"
+      :class="{'glyphicon-triangle-left text-info': sideBarStatus, 'glyphicon-triangle-right text-danger': !sideBarStatus }"
+      title="显示/隐藏侧边栏菜单"
+    ></i>
   </div>
 </template>
 
@@ -37,28 +42,31 @@ module.exports = {
   },
   data() {
     return {
-      sideBarStatus:  localStorage.getItem('sideBarStatus') || true,
+      sideBarStatus: true
     };
   },
   mounted() {
+    var that = this;
     $("#side-menu").metisMenu();
 
-    var that = this;
+    (that.sideBarStatus =
+      localStorage.getItem("sideBarStatus") == "false" ? false : true),
+      console.log(that.sideBarStatus);
+
     $(window).on("resize", function() {
       if ($(window).width() <= 800) {
         that.sideBarStatus = false;
-      }else{
+      } else {
         that.sideBarStatus = true;
       }
     });
   },
   methods: {
-    changeBar(){
+    changeBar() {
       this.sideBarStatus = !this.sideBarStatus;
       console.log(this.sideBarStatus);
-      localStorage.setItem('sideBarStatus',this.sideBarStatus)
+      localStorage.setItem("sideBarStatus", this.sideBarStatus);
     }
-
   }
 };
 </script>

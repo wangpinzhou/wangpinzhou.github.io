@@ -20,6 +20,7 @@ const w_cj_swal2 = httpVueLoader('./components/cj/w_cj_swal2.vue')
 const w_cj_edit = httpVueLoader('./components/cj/w_cj_edit.vue')
 const w_cj_table = httpVueLoader('./components/cj/w_cj_table.vue')
 const w_cj_code = httpVueLoader('./components/cj/w_cj_code.vue')
+const w_cj_chart = httpVueLoader('./components/cj/w_cj_chart.vue')
 
 // 2. 定义路由
 // 每个路由应该映射一个组件。 其中"component" 可以是
@@ -77,6 +78,7 @@ const routes = [
       { path: '/w_cj_edit', component: w_cj_edit },
       { path: '/w_cj_table', component: w_cj_table },
       { path: '/w_cj_code', component: w_cj_code },
+      { path: '/w_cj_chart', component: w_cj_chart },
 
       // ...其他子路由
     ]
