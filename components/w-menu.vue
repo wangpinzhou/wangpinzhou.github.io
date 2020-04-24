@@ -38,7 +38,10 @@
 <script>
 module.exports = {
   props: {
-    list: "Array"
+    list: {
+      type:Array,
+      default:[]
+    }
   },
   data() {
     return {
