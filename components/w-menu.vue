@@ -26,7 +26,7 @@
       </div>
     </nav>
 
-    <i class="glyphicon show-min" :class="{'glyphicon-indent-right text-info': sideBarStatus, 'glyphicon-indent-left text-danger': !sideBarStatus }" title="显示/隐藏侧边栏菜单" @click="sideBarStatus = !sideBarStatus"></i>
+    <i @click="changeBar" class="glyphicon show-min" :class="{'glyphicon-indent-right text-info': sideBarStatus, 'glyphicon-indent-left text-danger': !sideBarStatus }" title="显示/隐藏侧边栏菜单"></i>
   </div>
 </template>
 
@@ -37,7 +37,7 @@ module.exports = {
   },
   data() {
     return {
-      sideBarStatus: true,
+      sideBarStatus:  localStorage.getItem('sideBarStatus') || true,
     };
   },
   mounted() {
@@ -53,6 +53,11 @@ module.exports = {
     });
   },
   methods: {
+    changeBar(){
+      this.sideBarStatus = !this.sideBarStatus;
+      console.log(this.sideBarStatus);
+      localStorage.setItem('sideBarStatus',this.sideBarStatus)
+    }
 
   }
 };

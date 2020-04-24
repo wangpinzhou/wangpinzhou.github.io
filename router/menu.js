@@ -24,23 +24,34 @@ const menuList = {
       id: "",
       class: "",
       href: "",
-      title: "css样式",
+      title: "动画",
       target: "_self",
       subList: [
         {
           id: "",
           class: "",
           to: "/w_css_1",
-          title: "css样式美化",
+          title: "animate.css",
           target: "_self"
         },
+        
+      ]
+    },
+    {
+      id: "",
+      class: "",
+      href: "",
+      title: "展示",
+      target: "_self",
+      subList: [
         {
           id: "",
           class: "",
           to: "/w_css_2",
-          title: "css样式美化2",
+          title: "进度条",
           target: "_self"
         },
+       
       ]
     },
   ],
