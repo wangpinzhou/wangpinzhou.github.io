@@ -18,11 +18,12 @@ module.exports = {
   },
   data() {
     return {
-      list: menuList.cssList,
+      list:[]
 
     }
   },
   mounted() {
+     this.list =  menuList.find(function (v) { return v.item == 'cssList' }).list;
   }
 };
 </script>

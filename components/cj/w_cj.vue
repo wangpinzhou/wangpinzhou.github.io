@@ -17,11 +17,12 @@ module.exports = {
   },
   data() {
     return {
-      list : menuList.cjList,
+      list :[]
  
     };
   },
   mounted() {
+     this.list =  menuList.find(function (v) { return v.item == 'cjList' }).list;
     // $("#menu1").metisMenu();
   }
 };

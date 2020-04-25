@@ -18,8 +18,7 @@ module.exports = {
   },
   data() {
     return {
-      list: menuList.jsList,
-
+      list: menuList.find(function (v) { return v.item == 'jsList' }).list
     }
   },
   mounted() {

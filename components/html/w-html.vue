@@ -17,16 +17,15 @@ module.exports = {
   },
   data() {
     return {
-      list : menuList.htmlList,
+      list :[],
 
     };
   },
   mounted() {
-    $("#menu1").metisMenu();
+    this.list =  menuList.find(function (v) { return v.item == 'htmlList' }).list;
   }
 };
 </script>
 
 <style scoped>
-
 </style>
