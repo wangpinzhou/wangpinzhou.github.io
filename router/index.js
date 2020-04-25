@@ -6,6 +6,7 @@ const w_html_2 = httpVueLoader('./components/html/main2.vue')
 
 const w_css = httpVueLoader('./components/css/w_css.vue')
 const w_css_1 = httpVueLoader('./components/css/w_css_1.vue')
+const w_css_11 = httpVueLoader('./components/css/w_css_11.vue')
 const w_css_2 = httpVueLoader('./components/css/w_css_2.vue')
 
 
@@ -48,6 +49,7 @@ const routes = [
       // UserHome 会被渲染在 User 的 <router-view> 中
       { path: '/', component: w_css_1 },
       { path: '/w_css_1', component: w_css_1 },
+      { path: '/w_css_11', component: w_css_11 },
       { path: '/w_css_2', component: w_css_2 },
 
       // ...其他子路由

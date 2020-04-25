@@ -46,7 +46,7 @@ $(function () {
       },
 
       linkto(to) {
-        return
+        // return
         this.$router.push(to);
         layer.close(this.layer)
       },

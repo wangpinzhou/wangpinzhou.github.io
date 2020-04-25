@@ -8,6 +8,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="stylesheet" href="/static/css/all.css">
+  <link href="http://ianlunn.github.io/Hover/css/hover.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  
   <link rel="stylesheet" href="/index.css">
   <!-- <link rel="stylesheet" href="https://unpkg.com/metismenu/dist/metisMenu.min.css"> -->
 </head>
@@ -25,17 +29,18 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="javascript:;" @click="showAllRouter">目录</a>
+          <a class="navbar-brand hvr-wobble-top hvr-shutter-out-horizontal" href="javascript:;"
+            @click="showAllRouter">目录</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li :class="{active : index == activeNav}" v-for="(item ,index) in navList" :key="index"
-              @click="activeNav = index">
+              @click="activeNav = index" class="hvr-bounce-to-bottom">
               <router-link :to="item.to">
-                <a href="javascript:;">
-                  {{item.val}}
+                <a href="javascript:;" class="hvr-bounce-to-top">
+                  {{item.val}} 
                 </a>
               </router-link>
             </li>

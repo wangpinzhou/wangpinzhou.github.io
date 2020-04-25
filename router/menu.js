@@ -217,6 +217,13 @@ var menuList = [
             title: "animate.css",
             target: "_self"
           },
+          {
+            id: "",
+            class: "",
+            to: "/w_css_11",
+            title: "hover.css",
+            target: "_self"
+          },
 
         ]
       },
