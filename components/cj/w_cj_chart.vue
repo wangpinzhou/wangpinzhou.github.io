@@ -1,6 +1,13 @@
 
 <template>
   <div>
+    <h2>
+      
+      <a
+        href="https://www.echartsjs.com/zh/tutorial.html#5%20%E5%88%86%E9%92%9F%E4%B8%8A%E6%89%8B%20ECharts"
+        target="_blank"
+      >官方文档</a>
+    </h2>
     <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
     <button class="btn" @click="render">render</button>
     <div id="main" style="width:1100px;height:400px;"></div>

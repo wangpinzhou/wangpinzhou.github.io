@@ -1,8 +1,10 @@
 <template>
   <div>
     <div id="toolbox">
-      <button class="btn" @click="add">新增</button>
+      <button class="btn" @click="initBootstrapTable()">刷新Mock数据</button>
+      <button class="btn" @click="add">新增一行</button>
       <button class="btn" id="mergeCells" @click="mergeCells">合并</button>
+      <button class="btn" id="mergeCells" @click="getSelect">获取选中行</button>
     </div>
     <table
       id="bootstrapTable"
@@ -21,7 +23,16 @@ module.exports = {
   // }
   data() {
     return {
-      list: [{}]
+      list: [{}],
+      newRow: {
+        Id: Math.random(),
+        sku: "new row",
+        color: "new",
+        size: "M",
+        qty1: "10",
+        qty2: "10",
+        qty3: "10"
+      }
     };
   },
   mounted() {
@@ -32,18 +43,78 @@ module.exports = {
     });
   },
   methods: {
-    add() {},
+    add() {
+      $("#bootstrapTable").bootstrapTable("prepend", this.newRow);
+    },
+    getSelect() {
+      var list = $("#bootstrapTable").bootstrapTable("getSelections");
+      layer.alert(JSON.stringify(list));
+    },
 
     mergeCells() {
+      var list = $("#bootstrapTable").bootstrapTable("getData");
+      list = SortBySize(list);
+
+      var newList = _.orderBy(list, ["sku", "color", "sortNum"]);
+      $("#bootstrapTable").bootstrapTable("load", newList);
       mergeCells($("#bootstrapTable"), ["sku", "color", "size"]);
     },
 
     initBootstrapTable() {
+      var that = this;
       $("#bootstrapTable").bootstrapTable("destroy");
       var sidePagination = "client"; //分页方式：  client 客户端分页，server服务端分页（*）
-      var url = "";
+      var url = "./table.json";
+
+      var columns = [];
+
+      var fieldList = [
+        ["sku", "款号"],
+        ["color", "颜色"],
+        ["size", "尺码"],
+        ["数量1", "qty1"],
+        ["数量2", "qty2"],
+        ["数量3", "qty3"]
+      ];
+
+      // fieldList.forEach(function(v, i) {
+      //   var col = {
+      //     field: v[0],
+      //     title: v[1],
+      //     sortable: true,
+      //     align: "center",
+      //     valign: "middle",
+      //     rowspan:'2',
+      //     // titleTooltip: '',
+      //     // width: "10%",
+      //     // widthUnit: 'px',  // px / %
+      //     // class: '',
+      //     //colspan:'',
+      //     // visible: false,// 或者 true 隐藏或显示列
+      //   };
+
+      //   columns.push(col);
+      // });
+
+      // 自定义排序
+      // function customSort(sortName, sortOrder, data) {
+      //   console.log(sortName, sortOrder, data);
+      //   var order = sortOrder === "desc" ? -1 : 1;
+      //   data.sort(function(a, b) {
+      //     var v1 = a[sortName];
+      //     var v2 = b[sortName];
+      //     if (v1 == 3) {
+      //       return -1;
+      //     }
+      //     if (v1 > v2) {
+      //       return 1;
+      //     }
+      //     return 0;
+      //   });
+      // }
+
       $("#bootstrapTable").bootstrapTable({
-        method: "post",
+        method: "get",
         url: url,
         contentType: "application/x-www-form-urlencoded;charset=UTF-8",
         //请求服务数据时所传参数
@@ -57,28 +128,29 @@ module.exports = {
         //加载服务器数据之前的处理程序，可以用来格式化数据。 参数：res为从服务器请求到的数据。
         // totalField: 'count',
         // dataField: 'data',  通过设置bootstrap table 的totalField 和 dataField 属性，来指定服务器返回数据的JSON格式，totalField默认total,dataField默认rows,JSON格式如下。
-        // responseHandler: function responseHandler(res) {
-        //   if (res.status == "fail") {
-        //     layer.alert(res.msg);
-        //     if (sidePagination == "client") {
-        //       return [];
-        //     } else {
-        //       return {
-        //         total: 0,
-        //         rows: []
-        //       };
-        //     }
-        //   }
-        //   if (sidePagination == "client") {
-        //     return [];
-        //   } else {
-        //     return {
-        //       total: res.rowCount, //总页数,前面的key必须为'total'
-        //       rows: [] //res.data.skuList.rowList //行数据，前面的key要与之前设置的dataField的值一致.
-        //     };
-        //   }
-        // },
-        // height: $(window).height() - 230,
+        responseHandler: function responseHandler(res) {
+          if (res.status == "fail") {
+            layer.alert(res.msg);
+            if (sidePagination == "client") {
+              return [];
+            } else {
+              return {
+                total: 0,
+                rows: []
+              };
+            }
+          }
+          if (sidePagination == "client") {
+            console.table(res.data.skuList.rowList);
+            return res.data.skuList.rowList;
+          } else {
+            return {
+              total: res.rowCount, //总页数,前面的key必须为'total'
+              rows: [] //res.data.skuList.rowList //行数据，前面的key要与之前设置的dataField的值一致.
+            };
+          }
+        },
+        height: $(window).height() - 230,
         // toolbar: "#toolbar",
         // showColumns: true,//显示列刷选
         // cache: false,
@@ -97,6 +169,7 @@ module.exports = {
         pageNumber: 1, //初始化加载第一页，默认第一页
         pageSize: 100, //每页的记录行数（*）
         pageList: [100, 500, 1000], //可供选择的每页的行数（*）
+        uniqueId: "id",
         // cardView: true, //卡片视图模式
         // icons:{
         //   detailOpen: 'glyphicon-chevron-down icon-plus',
@@ -111,83 +184,45 @@ module.exports = {
         //   detailOpen: 'fa-plus',
         //   detailClose: 'fa-minus'
         // },
-        // detailView: true, //是否显示父子表
+        detailView: true, //是否显示父子表
         // 子表格式
-        // detailFormatter: function (index, row) {
-        //   var str = `
-        //             <h3>子表index : index</h3>
-        //             <p>
-        //                子表内容 : ${JSON.stringify(row)}
-        //             </p>
-        //  `
-        //   return str;
-        // },
+        detailFormatter: function (index, row) {
+          var str = `
+                    <h3>子表index : index</h3>
+                    <p>
+                       子表内容 : ${JSON.stringify(row)}
+                    </p>
+         `
+          return str;
+        },
         //
-        // rowAttributes: function (row, index) {  // 行样式
-        //   if (row.stockOutNumTotal > 6000) {
-        //     return {
-        //       'class': 'bg-danger text-info',
-        //     }
-        //   }
-        // },
-        data: [
-          {
-            sku: "11",
-            color: "白色",
-            size: "x",
-            qty: "11",
-            qty1: "11",
-            qty2: "20%"
-          },
-          {
-            sku: "22",
-            color: "红色",
-            size: "m",
-            qty: "22",
-            qty1: "11",
-            qty2: "20%"
-          },
-          {
-            sku: "22",
-            color: "红色",
-            size: "m",
-            qty: "22",
-            qty1: "11",
-            qty2: "20%"
-          },
-          {
-            sku: "33",
-            color: "蓝色",
-            size: "l",
-            qty: "33",
-            qty1: "11",
-            qty2: "20%"
-          },
-          {
-            sku: "33",
-            color: "蓝色",
-            size: "xl",
-            qty: "33",
-            qty1: "11",
-            qty2: "20%"
-          },
-          {
-            sku: "33",
-            color: "黑色",
-            size: "2xl",
-            qty: "33",
-            qty1: "11",
-            qty2: "20%"
-          },
-          {
-            sku: "44",
-            color: "蓝色",
-            size: "l",
-            qty: "33",
-            qty1: "11",
-            qty2: "20%"
+        theadClasses: "bg-primary", //这里设置表头样式
+        showFooter: true,
+        rowAttributes: function(row, index) {
+          // 行样式
+          if (index % 5 == 0) {
+            return {
+              class: "success"
+            };
           }
-        ],
+        },
+        // customSort: customSort,  // 自定义排序
+        onSort: function(name, order) {
+          console.log(name, order);
+          if (name == "size") {
+            console.log("size");
+            var list = $("#bootstrapTable").bootstrapTable("getData");
+            list = SortBySize(list);
+            console.table(list);
+
+            // var newList = _.orderBy(list, ["sku", "color", "sortNum"]);
+            $("#bootstrapTable").bootstrapTable("load", list);
+          }
+
+          return 1;
+
+          // layer.alert(name,order);
+        },
         columns: [
           [
             {
@@ -197,7 +232,7 @@ module.exports = {
             {
               field: "index",
               title: "序号",
-              width: "3%",
+              // width: "3%",
               align: "center",
               valign: "middle",
               rowspan: "2",
@@ -296,7 +331,7 @@ module.exports = {
               field: "qty",
               title: "数量",
               // titleTooltip: '',
-              width: "10%",
+              // width: "10%",
               // widthUnit: 'px',  // px / %
               // class: '',
               rowspan: "1",
@@ -304,10 +339,79 @@ module.exports = {
               sortable: true,
               align: "center",
               valign: "middle"
+
               // visible: false,// 或者 true 隐藏或显示列
               // checkbox: true, // checkbox:true 表示该列为复选框选择列,
               // clickToSelect: false, // √{field:'name',clickToSelect:false}表示点击name这列时不会触发选中事件。
               // cellStyle: 自定义函数，单元格自定义样式function(value, row, index){ return {classes: '类名'};  //  return {css: {color: 'blue'}}; }
+              // formatter: function (value, row, index) {
+              //   var str = `<input type='text' value='${row.}'  data-value='${row.}' class=' blur'>`
+              //   return str;
+              // }
+              //events: {
+              //    'change .className': function(e, value, row, index) {
+              //     }
+              // }
+            },
+            {
+              field: "id",
+              title: "操作",
+              // width: "6%",
+              align: "center",
+              valign: "middle",
+              rowspan: "2",
+              class:'bg-info',
+              clickToSelect: false,
+              formatter: function(value, row, index) {
+                var str = `
+                <button class='btn btn-danger btn-sm del'>删除</button>
+                <button class='btn btn-info btn-sm add'>增加</button>
+                `;
+                return str;
+              },
+              events: {
+                "click .del": function(e, value, row, index) {
+                  layer.msg(`删除  ${index}`);
+                  $("#bootstrapTable").bootstrapTable(
+                    "removeByUniqueId",
+                    row.id
+                  );
+                },
+                "click .add": function(e, value, row, index) {
+                  layer.msg(`add  ${index}`);
+                  $("#bootstrapTable").bootstrapTable("insertRow", {
+                    index: index,
+                    row: that.newRow
+                  });
+                }
+              }
+            }
+          ],
+          [
+            {
+              field: "qty1",
+              title: "数量1",
+              // titleTooltip: '',
+              // width: "10%",
+              // widthUnit: 'px',  // px / %
+              // class: '',
+              rowspan: "1",
+              //colspan:'',
+              sortable: true,
+              align: "center",
+              valign: "middle",
+              // visible: false,// 或者 true 隐藏或显示列
+              // checkbox: true, // checkbox:true 表示该列为复选框选择列,
+              // clickToSelect: false, // √{field:'name',clickToSelect:false}表示点击name这列时不会触发选中事件。
+              //  return {css: {color: 'blue'}}; } 自定义函数，单元格自定义样式
+              cellStyle: function(value, row, index) {
+                if (value < 0) {
+                  return { classes: "danger" };
+                } else {
+                  return { classes: "" };
+                }
+              }
+
               // formatter: function (value, row, index) {
               //   var str = `<input type='text' value='${row.}'  data-value='${row.}' class=' blur'>`
               //   return str;
@@ -319,77 +423,7 @@ module.exports = {
             },
             {
               field: "qty2",
-              title: "操作",
-              // width: "6%",
-              align: "center",
-              valign: "middle",
-              rowspan: "2",
-              clickToSelect: false,
-              formatter: function(value, row, index) {
-                var str = `<button class='del'>删除</button>`;
-                return str;
-              },
-              events: {
-                "change .del": function(e, value, row, index) {
-                  layer.msg(`删除  ${index}`);
-                }
-              }
-            }
-          ],
-          [
-            {
-              field: "qty",
-              title: "qty",
-              // titleTooltip: '',
-              // width: "10%",
-              // widthUnit: 'px',  // px / %
-              // class: '',
-              rowspan: "1",
-              //colspan:'',
-              sortable: true,
-              align: "center",
-              valign: "middle"
-              // visible: false,// 或者 true 隐藏或显示列
-              // checkbox: true, // checkbox:true 表示该列为复选框选择列,
-              // clickToSelect: false, // √{field:'name',clickToSelect:false}表示点击name这列时不会触发选中事件。
-              // cellStyle: 自定义函数，单元格自定义样式function(value, row, index){ return {classes: '类名'};  //  return {css: {color: 'blue'}}; }
-              // formatter: function (value, row, index) {
-              //   var str = `<input type='text' value='${row.}'  data-value='${row.}' class=' blur'>`
-              //   return str;
-              // }
-              //events: {
-              //    'change .className': function(e, value, row, index) {
-              //     }
-              // }
-            },
-            {
-              field: "qty1",
-              title: "qty1",
-              // titleTooltip: '',
-              // width: "10%",
-              // widthUnit: 'px',  // px / %
-              // class: '',
-              rowspan: "1",
-              //colspan:'',
-              sortable: true,
-              align: "center",
-              valign: "middle"
-              // visible: false,// 或者 true 隐藏或显示列
-              // checkbox: true, // checkbox:true 表示该列为复选框选择列,
-              // clickToSelect: false, // √{field:'name',clickToSelect:false}表示点击name这列时不会触发选中事件。
-              // cellStyle: 自定义函数，单元格自定义样式function(value, row, index){ return {classes: '类名'};  //  return {css: {color: 'blue'}}; }
-              // formatter: function (value, row, index) {
-              //   var str = `<input type='text' value='${row.}'  data-value='${row.}' class=' blur'>`
-              //   return str;
-              // }
-              //events: {
-              //    'change .className': function(e, value, row, index) {
-              //     }
-              // }
-            },
-            {
-              field: "qty",
-              title: "qty",
+              title: "数量2",
               // titleTooltip: '',
               // width: "10%",
               // widthUnit: 'px',  // px / %
@@ -404,17 +438,51 @@ module.exports = {
               // clickToSelect: false, // √{field:'name',clickToSelect:false}表示点击name这列时不会触发选中事件。
               // cellStyle: 自定义函数，单元格自定义样式function(value, row, index){ return {classes: '类名'};  //  return {css: {color: 'blue'}}; }
               formatter: function(value, row, index) {
-                var str = `<div class="progress">
-                              <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="${value}" aria-valuemin="0" aria-valuemax="100" style="width: ${value}%;">
-                                ${value}%
-                              </div>
-                            </div>`;
+                var str = `<div style="width:${value}%;background:${
+                  value > 50 ? "#0f0" : "#f00"
+                };height:40px; line-height:40px;" >${value}%</div>`;
                 return str;
               }
               //events: {
               //    'change .className': function(e, value, row, index) {
               //     }
               // }
+            },
+            {
+              field: "qty3",
+              title: "数量3",
+              // titleTooltip: '',
+              // width: "10%",
+              // widthUnit: 'px',  // px / %
+              // class: '',
+              rowspan: "1",
+              //colspan:'',
+              sortable: true,
+              align: "center",
+              valign: "middle",
+              // visible: false,// 或者 true 隐藏或显示列
+              // checkbox: true, // checkbox:true 表示该列为复选框选择列,
+              // clickToSelect: false, // √{field:'name',clickToSelect:false}表示点击name这列时不会触发选中事件。
+              // cellStyle: 自定义函数，单元格自定义样式function(value, row, index){ return {classes: '类名'};  //  return {css: {color: 'blue'}}; }
+              // formatter: function(value, row, index) {
+              //   var str = `<div class="progress">
+              //                 <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="${value}" aria-valuemin="0" aria-valuemax="100" style="width: ${value}%;">
+              //                   ${value}%
+              //                 </div>
+              //               </div>`;
+              //   return str;
+              // }
+              //events: {
+              //    'change .className': function(e, value, row, index) {
+              //     }
+              // }
+              footerFormatter: function(data) {
+                console.log(this);
+                var str = this.field;
+                return data.reduce(function(s, v, i) {
+                  return s + +v[str];
+                }, 0);
+              }
             }
           ]
         ]
@@ -470,6 +538,72 @@ function mergeCells($table, fieldArr) {
       sindex += objC[z];
     });
   });
+}
+
+// 尺码排序
+function SortBySize(sizeList) {
+  // 将sizelist 按 xs s m l xl ... 排序
+  var waitSortSize = sizeList.map(function(v) {
+    switch (v.size.toUpperCase()) {
+      case "XXXXXL":
+        v.sortNum = 99999;
+        break;
+      case "5XL":
+        v.sortNum = 99998;
+        break;
+      case "XXXXL":
+        v.sortNum = 9999;
+        break;
+      case "4XL":
+        v.sortNum = 9998;
+        break;
+      case "XXXL":
+        v.sortNum = 8888;
+        break;
+      case "3XL":
+        v.sortNum = 8887;
+        break;
+      case "XXL":
+        v.sortNum = 7777;
+        break;
+      case "2XL":
+        v.sortNum = 7776;
+        break;
+      case "XL":
+        v.sortNum = 6666;
+        break;
+      case "L":
+        v.sortNum = 5555;
+        break;
+      case "M":
+        v.sortNum = 4444;
+        break;
+      case "S":
+        v.sortNum = 3333;
+        break;
+      case "XS":
+        v.sortNum = 2222;
+        break;
+      case "XXS":
+        v.sortNum = 1111;
+        break;
+      case "2XS":
+        v.sortNum = 1110;
+        break;
+
+      default:
+        v.sortNum = 9999999;
+        break;
+    }
+    return v;
+  });
+
+  // sizeList = waitSortSize.sort(function (a, b) {
+  //   return a.sortNum - b.sortNum;
+  // });
+
+  // return sizeList
+  return waitSortSize;
 }
 </script>
 

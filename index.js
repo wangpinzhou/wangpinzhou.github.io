@@ -1,6 +1,22 @@
 import router from './router/index.js';
 $(function () {
   var that;
+
+  var layerload;
+  router.beforeEach((to, from, next) => {
+    console.log('beforeEach');
+    console.log(to, from, next);
+    layerload = layer.load(1);
+    next()
+  })
+  router.afterEach((to, from) => {
+    console.log('afterEach');
+    console.log(to, from);
+    setTimeout(() => {
+      layer.close(layerload)
+    }, 200);
+    // ...
+  })
   var vm = new Vue({
     router,
     el: '#app',
