@@ -25,7 +25,7 @@ module.exports = {
     return {
       list: [{}],
       newRow: {
-        Id: Math.random(),
+        id: Math.random(),
         sku: "new row",
         color: "new",
         size: "M",
