@@ -23,16 +23,7 @@ module.exports = {
   // }
   data() {
     return {
-      list: [{}],
-      newRow: {
-        id: Math.random(),
-        sku: "new row",
-        color: "new",
-        size: "M",
-        qty1: "10",
-        qty2: "10",
-        qty3: "10"
-      }
+      list: [{}]
     };
   },
   mounted() {
@@ -44,7 +35,17 @@ module.exports = {
   },
   methods: {
     add() {
-      $("#bootstrapTable").bootstrapTable("prepend", this.newRow);
+      var onerow = {
+        id: _.random(1000, 1000000), // 这里有个坑 用Math.random() 生成的id 删除不了;
+        sku: "new row",
+        color: "new",
+        size: "M",
+        qty1: "10",
+        qty2: "10",
+        qty3: "10"
+      };
+      console.log(onerow);
+      $("#bootstrapTable").bootstrapTable("prepend", onerow);
     },
     getSelect() {
       var list = $("#bootstrapTable").bootstrapTable("getSelections");
@@ -186,13 +187,13 @@ module.exports = {
         // },
         detailView: true, //是否显示父子表
         // 子表格式
-        detailFormatter: function (index, row) {
+        detailFormatter: function(index, row) {
           var str = `
                     <h3>子表index : index</h3>
                     <p>
                        子表内容 : ${JSON.stringify(row)}
                     </p>
-         `
+         `;
           return str;
         },
         //
@@ -360,7 +361,7 @@ module.exports = {
               align: "center",
               valign: "middle",
               rowspan: "2",
-              class:'bg-info',
+              class: "bg-info",
               clickToSelect: false,
               formatter: function(value, row, index) {
                 var str = `
@@ -371,17 +372,27 @@ module.exports = {
               },
               events: {
                 "click .del": function(e, value, row, index) {
-                  layer.msg(`删除  ${index}`);
+                  layer.msg(`删除  ${row.id}`);
                   $("#bootstrapTable").bootstrapTable(
                     "removeByUniqueId",
-                    row.id
+                    value
                   );
                 },
                 "click .add": function(e, value, row, index) {
-                  layer.msg(`add  ${index}`);
+                  layer.msg(`add  ${row.id}`);
+                  var onerow = {
+                    id: _.random(1000, 1000000),
+                    sku: "new row",
+                    color: "new",
+                    size: "M",
+                    qty1: "10",
+                    qty2: "10",
+                    qty3: "10"
+                  };
+                  console.log(onerow);
                   $("#bootstrapTable").bootstrapTable("insertRow", {
                     index: index,
-                    row: that.newRow
+                    row: onerow
                   });
                 }
               }
