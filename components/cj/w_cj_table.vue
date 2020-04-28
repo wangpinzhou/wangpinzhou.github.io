@@ -49,7 +49,24 @@ module.exports = {
     },
     getSelect() {
       var list = $("#bootstrapTable").bootstrapTable("getSelections");
-      layer.alert(JSON.stringify(list));
+      // console.log(JSON.stringify(list, null, "\t"));
+      layer.open({
+        type: 1, //Layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）,
+        title: "获取的行数据", //标题
+        area: ["50%", "500px"], //宽高 px/ %
+        // offset: ["auto"], //位置 px/ %t
+        shade: 0.4, //遮罩透明度
+        content: `<div><pre>${JSON.stringify(list, null, "\t")}</pre></div>`, //  dom 或 url 地址 $('#')  iframe 地址
+        maxmin: true, // 显示 最小化 /最大化按键;
+        // fixed: true, //不固定
+        // move: false,//来禁止拖拽
+        // moveOut: true,//是否允许拖拽到窗口外
+        // closeBtn: 1,  // 1, 显示关闭 0 不显示关闭按键
+        // tips: [1, '#c00'], tips方向和颜色 4（tips层）
+        // scrollbar: false, //屏蔽浏览器滚动条
+        shadeClose: true
+      });
+      // layer.alert(JSON.stringify(list, null, "\t"));
     },
 
     mergeCells() {
@@ -67,16 +84,16 @@ module.exports = {
       var sidePagination = "client"; //分页方式：  client 客户端分页，server服务端分页（*）
       var url = "./table.json";
 
-      var columns = [];
+      // var columns = [];
 
-      var fieldList = [
-        ["sku", "款号"],
-        ["color", "颜色"],
-        ["size", "尺码"],
-        ["数量1", "qty1"],
-        ["数量2", "qty2"],
-        ["数量3", "qty3"]
-      ];
+      // var fieldList = [
+      //   ["sku", "款号"],
+      //   ["color", "颜色"],
+      //   ["size", "尺码"],
+      //   ["数量1", "qty1"],
+      //   ["数量2", "qty2"],
+      //   ["数量3", "qty3"]
+      // ];
 
       // fieldList.forEach(function(v, i) {
       //   var col = {
@@ -250,6 +267,34 @@ module.exports = {
                   return pageSize * (pageNumber - 1) + index + 1; //返回每条的序号： 每页条数 * （当前页 - 1 ）+ 序号
                 }
               }
+            },
+            {
+              field: "img",
+              title: "图片",
+              // titleTooltip: '',
+              width: "150",
+              // widthUnit: 'px',  // px / %
+              // class: '',
+              //rowspan:'',
+              //colspan:'',
+              rowspan: "2",
+              sortable: true,
+              align: "center",
+              valign: "middle",
+              // visible: false,// 或者 true 隐藏或显示列
+              // checkbox: true, // checkbox:true 表示该列为复选框选择列,
+              clickToSelect: false, // √{field:'name',clickToSelect:false}表示点击name这列时不会触发选中事件。
+              // cellStyle: 自定义函数，单元格自定义样式function(value, row, index){ return {classes: '类名'};  //  return {css: {color: 'blue'}}; }
+              formatter: function(value, row, index) {
+                var randonImg = Mock.Random.dataImage("200x100", row.cword);
+                var str = `<a tabindex="0"  role="button" data-toggle="popover" data-trigger="focus" title="" data-html="true" data-content="<img  src='${randonImg}' style='width:100%'/>">
+                          <img class="lazyload" src='' data-src="${randonImg}" style="width:100%"/> </a>`;
+                return str;
+              }
+              //events: {
+              //    'change .className': function(e, value, row, index) {
+              //     }
+              // }
             },
             {
               field: "sku",
@@ -496,10 +541,14 @@ module.exports = {
               }
             }
           ]
-        ]
+        ],
         // onAll: function () {
         //   $('#bootstrapTable').bootstrapTable('resetWidth')
         //   }
+        onLoadSuccess: function() {
+          $("#bootstrapTable").bootstrapTable("resetView");
+          $('[data-toggle="popover"]').popover();
+        }
       });
     }
   }
