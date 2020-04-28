@@ -187,6 +187,50 @@ $(function () {
     }
   })
 
+  /**
+*
+*
+* @param {*} name  //文件名
+* @param {*} header  //列标题，逗号隔开，每一个逗号就是隔开一个单元格  String
+* @param {*} headerList  //列标题，逗号隔开，每一个逗号就是隔开一个单元格  arr string
+* @param {*} jsonData //要导出的json数据 [{key :value},{key :value}]
+*/
+  function exportJsonToExcel(header, headerList, jsonData, name = "导出的文件") {
+
+
+    //增加\t为了不让表格显示科学计数法或者其他格式
+    header = header + '\n'
+    // var mapArr = []
+    for (let i = 0; i < jsonData.length; i++) {
+      // const m = new Map();
+      for (let j = 0; j < headerList.length; j++) {
+        // m.set(headerList[j], jsonData[i][headerList[j]])
+        header += `${jsonData[i][headerList[j]] + '\t'},`;
+      }
+      header += '\n';
+      // mapArr.push(m)
+    }
+
+
+    //encodeURIComponent解决中文乱码
+    let uri = 'data:text/csv;charset=utf-8,\ufeff' + encodeURIComponent(header);
+    window.open(uri, '导出记录.csv');
+
+    // 通过创建a标签实现
+    let link = document.createElement("a");
+    link.href = uri;
+    //对下载的文件命名
+    link.download = `${name}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+
+
+  }
+
+
+
 })
 
 

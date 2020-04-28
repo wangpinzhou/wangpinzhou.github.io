@@ -5,6 +5,7 @@
       <button class="btn" @click="add">新增一行</button>
       <button class="btn" id="mergeCells" @click="mergeCells">合并</button>
       <button class="btn" id="mergeCells" @click="getSelect">获取选中行</button>
+      <button class="btn" id="exportBtn" @click="exportBtn">导出csv</button>
     </div>
     <table
       id="bootstrapTable"
@@ -67,6 +68,73 @@ module.exports = {
         shadeClose: true
       });
       // layer.alert(JSON.stringify(list, null, "\t"));
+    },
+
+    /**
+     *
+     *
+     * @param {*} name  //文件名
+     * @param {*} header  //列标题，逗号隔开，每一个逗号就是隔开一个单元格  String
+     * @param {*} headerList  //列标题，逗号隔开，每一个逗号就是隔开一个单元格  arr string
+     * @param {*} jsonData //要导出的json数据 [{key :value},{key :value}]
+     */
+    exportJsonToExcel(header, headerList, jsonData, name = "导出的文件") {
+      //增加\t为了不让表格显示科学计数法或者其他格式
+      header = header + "\n";
+      // var mapArr = []
+      for (let i = 0; i < jsonData.length; i++) {
+        // const m = new Map();
+        for (let j = 0; j < headerList.length; j++) {
+          // m.set(headerList[j], jsonData[i][headerList[j]])
+          header += `${jsonData[i][headerList[j]] + "\t"},`;
+        }
+        header += "\n";
+        // mapArr.push(m)
+      }
+
+      //encodeURIComponent解决中文乱码
+      let uri =
+        "data:text/csv;charset=utf-8,\ufeff" + encodeURIComponent(header);
+      window.open(uri, "导出记录.csv");
+
+      // 通过创建a标签实现
+      let link = document.createElement("a");
+      link.href = uri;
+      //对下载的文件命名
+      link.download = `${name}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+    exportBtn() {
+      var that = this;
+      var columns = $("#bootstrapTable")
+        .bootstrapTable("getOptions")
+        .columns[0].filter(function(v) {
+          if (v.rowspan == 2) {
+            return v;
+          }
+        });
+
+      columns.pop();
+      columns.shift();
+      columns.shift();
+
+      var columns = columns.concat(
+        $("#bootstrapTable").bootstrapTable("getOptions").columns[1]
+      );
+
+      var header = columns
+        .map(function(v) {
+          return v.title;
+        })
+        .join();
+      var headerList = columns.map(function(v) {
+        return v.field;
+      });
+      // console.log(header, headerList, that.list);
+      that.exportJsonToExcel(header, headerList, that.list);
+      layer.msg("导出完成");
     },
 
     mergeCells() {
@@ -159,8 +227,10 @@ module.exports = {
             }
           }
           if (sidePagination == "client") {
-            console.table(res.data.skuList.rowList);
-            return res.data.skuList.rowList;
+            var list = res.data.skuList.rowList;
+            that.list = list;
+            // console.table(list);
+            return list;
           } else {
             return {
               total: res.rowCount, //总页数,前面的key必须为'total'
@@ -248,7 +318,7 @@ module.exports = {
               rowspan: "2"
             },
             {
-              field: "index",
+              field: "",
               title: "序号",
               // width: "3%",
               align: "center",
@@ -420,7 +490,7 @@ module.exports = {
                   layer.msg(`删除  ${row.id}`);
                   $("#bootstrapTable").bootstrapTable(
                     "removeByUniqueId",
-                    value
+                    row.id
                   );
                 },
                 "click .add": function(e, value, row, index) {
