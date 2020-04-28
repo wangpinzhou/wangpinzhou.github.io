@@ -4,12 +4,12 @@ Mock.mock(/table\.json/, {
   "data": {
     "skuList": {
       "pageCount": 1,
-      "rowList|10-1000": [{
+      "rowList|10-100": [{
         "id": '@id',
         "cword": '@cword(2,3)',
         "date": '@date()',
         "img": Mock.Random.image(),
-        "sku|1": [111, 222, 333, 444, 555],
+        "sku|1": [111, 222, 333, 444, 555,666,777,888,999 ],
         "color|1": ['黑色', '白色', '蓝色', '红色'],
         "size|1": ['S', "M", "L", "XL", "XXL", "XXXL", "XXXXL", "XXXXXL", '均码'],
         "qty1|-100-100": (-100, 100),

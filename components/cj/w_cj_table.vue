@@ -142,6 +142,7 @@ module.exports = {
       list = SortBySize(list);
 
       var newList = _.orderBy(list, ["sku", "color", "sortNum"]);
+      that.list = newList;
       $("#bootstrapTable").bootstrapTable("load", newList);
       mergeCells($("#bootstrapTable"), ["sku", "color", "size"]);
     },
@@ -359,7 +360,12 @@ module.exports = {
                 var randonImg = Mock.Random.dataImage("200x100", row.cword);
                 var str = `<a tabindex="0"  role="button" data-toggle="popover" data-trigger="focus" title="" data-html="true" data-content="<img  src='${randonImg}' style='width:100%'/>">
                           <img class="lazyload" src='' data-src="${randonImg}" style="width:100%"/> </a>`;
-                return str;
+
+                var str1 = `
+                          <img class="lazyload" src='' data-src="${randonImg}" data-html="true" data-toggle="tooltip" data-placement="right" data-title="<img src='${randonImg}' class='img' style='width:100%' />" style='width:100px'"/> 
+                          `;
+
+                return str1;
               }
               //events: {
               //    'change .className': function(e, value, row, index) {
@@ -612,12 +618,12 @@ module.exports = {
             }
           ]
         ],
-        // onAll: function () {
-        //   $('#bootstrapTable').bootstrapTable('resetWidth')
-        //   }
+        onAll: function() {
+          $('[data-toggle="popover"]').popover();
+          $('[data-toggle="tooltip"]').tooltip();
+        },
         onLoadSuccess: function() {
           $("#bootstrapTable").bootstrapTable("resetView");
-          $('[data-toggle="popover"]').popover();
         }
       });
     }

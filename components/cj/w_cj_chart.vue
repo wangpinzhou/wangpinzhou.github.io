@@ -7,8 +7,9 @@
         target="_blank"
       >官方文档</a>
     </h2>
+    <p class="text-danger">直接修改查看效果</p>
     <div style="display:flex;">
-      <textarea class="form-control" style="height:50vh;width:50%;" v-model="options"></textarea>
+      <textarea class="form-control" style="height:50vh;width:50%;" v-model="options" @keyup="render"></textarea>
       <!-- <pre style="width:50%">
 // 基于准备好的dom，初始化echarts实例 (main 必须设置宽高;类似就是canvas)
 var myChart = echarts.init(document.getElementById('main'));
@@ -18,7 +19,7 @@ var option = {{option}}
 myChart.setOption(option);
       </pre>-->
       <div style="width:50%">
-        <button class="btn btn-sm btn-success" @click="render">运行</button>
+        <!-- <button class="btn btn-sm btn-success" @click="render">运行</button> -->
 
         <div id="main" style="width:100%;height:400px;"></div>
       </div>
@@ -164,7 +165,7 @@ module.exports = {
       },
       // setter
       set: function(newValue) {
-        this.option = eval( `(${newValue})`) //JSON.parse(newValue);//转义  JSON.parse(newValue);
+          this.option = eval( `(${newValue})`) //JSON.parse(newValue);//转义  JSON.parse(newValue);
       }
     }
   },

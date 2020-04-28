@@ -35,6 +35,7 @@ $(function () {
       menuList: menuList,
       layer: null,
 
+      fullscreen: false,
 
     },
     computed: {
@@ -49,6 +50,10 @@ $(function () {
     created() {
     },
     methods: {
+      requestFullscreen() {
+        this.fullscreen ? document.exitFullscreen() : document.documentElement.requestFullscreen()
+        this.fullscreen = !this.fullscreen;
+      },
 
       initKeyMaster() {
         key('esc', function () {
