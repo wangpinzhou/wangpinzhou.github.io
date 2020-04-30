@@ -32,8 +32,9 @@ $(function () {
         { to: '/w_js', val: 'JS' },
         { to: '/w_cj', val: '插件' },
       ],
-      menuList: menuList,
+      
       layer: null,
+      menuList : [],
 
       fullscreen: false,
 
@@ -42,7 +43,12 @@ $(function () {
     },
     mounted() {
       that = this;
-      that.initKeyMaster()
+      that.initKeyMaster();
+      that.menuList = this.$router.options.routes,
+      console.log('===============');
+      console.log(this.$router.options.routes);
+      // console.log(this.$router);
+      // console.log(this.$route);
 
 
 

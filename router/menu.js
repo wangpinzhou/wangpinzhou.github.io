@@ -360,8 +360,24 @@ var menuList = [
           {
             id: "",
             class: "",
-            to: "/w_cj_code",
+            to: "/w_cj/w_cj_code",
             title: "qrcode",
+            target: "_self"
+          }
+        ]
+      },
+      {
+        id: "",
+        class: "",
+        href: "",
+        title: "画图",
+        target: "_self",
+        subList: [
+          {
+            id: "",
+            class: "",
+            to: "/w_cj/w_cj_fabric",
+            title: "fabric",
             target: "_self"
           }
         ]

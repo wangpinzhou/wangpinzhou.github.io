@@ -4,7 +4,7 @@
       <button class="btn" @click="initBootstrapTable()">刷新Mock数据</button>
       <button class="btn" @click="add">新增一行</button>
       <button class="btn" id="mergeCells" @click="mergeCells">合并</button>
-      <button class="btn" id="mergeCells" @click="getSelect">获取选中行</button>
+      <button class="btn" id="getSelect" @click="getSelect">获取选中行</button>
       <button class="btn" id="exportBtn" @click="exportBtn">导出csv</button>
     </div>
     <table
@@ -142,7 +142,7 @@ module.exports = {
       list = SortBySize(list);
 
       var newList = _.orderBy(list, ["sku", "color", "sortNum"]);
-      that.list = newList;
+      this.list = newList;
       $("#bootstrapTable").bootstrapTable("load", newList);
       mergeCells($("#bootstrapTable"), ["sku", "color", "size"]);
     },
@@ -584,9 +584,9 @@ module.exports = {
               field: "qty3",
               title: "数量3",
               // titleTooltip: '',
-              // width: "10%",
+              width: "100",
               // widthUnit: 'px',  // px / %
-              // class: '',
+              class: "text-center",
               rowspan: "1",
               //colspan:'',
               sortable: true,
@@ -594,22 +594,33 @@ module.exports = {
               valign: "middle",
               // visible: false,// 或者 true 隐藏或显示列
               // checkbox: true, // checkbox:true 表示该列为复选框选择列,
-              // clickToSelect: false, // √{field:'name',clickToSelect:false}表示点击name这列时不会触发选中事件。
+              clickToSelect: false, // √{field:'name',clickToSelect:false}表示点击name这列时不会触发选中事件。
               // cellStyle: 自定义函数，单元格自定义样式function(value, row, index){ return {classes: '类名'};  //  return {css: {color: 'blue'}}; }
-              // formatter: function(value, row, index) {
-              //   var str = `<div class="progress">
-              //                 <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="${value}" aria-valuemin="0" aria-valuemax="100" style="width: ${value}%;">
-              //                   ${value}%
-              //                 </div>
-              //               </div>`;
-              //   return str;
-              // }
-              //events: {
-              //    'change .className': function(e, value, row, index) {
-              //     }
-              // }
+              formatter: function(value, row, index) {
+                var str = ` <input type="number" class="qty3 form-control text-center" value="${value}" style="width:100px;display:inline-block"> `;
+                return str;
+              },
+              events: {
+                "change .qty3": function(e, value, row, index) {
+
+                  // 这个方法 更新后会刷新table 更新关联的计算数据;  需要计算的使用这个;
+                  $("#bootstrapTable").bootstrapTable("updateCellByUniqueId", {
+                    id: row.id,
+                    field: "qty3",
+                    value:  e.target.value
+                  });
+
+
+                  // row["qty3"] = e.target.value; //不需要计算的使用这个; 使用这个写法 可以避免 添加行 或 表头排序后 数据丢失; 但是 不会 更新关联的数据;
+                  // 更新数据后 对应关联的数据计算 如 合计没有更新 ; 用refresh 方法 会重新请求 用 load 方法 也会刷新表格 回到第一行 如下 修改最后一行测试;
+                  // $("#bootstrapTable").bootstrapTable(
+                  //   "load",
+                  //   $("#bootstrapTable").bootstrapTable("getData")
+                  // );
+                }
+              },
               footerFormatter: function(data) {
-                console.log(this);
+                // console.log(this);
                 var str = this.field;
                 return data.reduce(function(s, v, i) {
                   return s + +v[str];

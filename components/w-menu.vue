@@ -1,5 +1,5 @@
 <template>
-  <div class="left_menu">
+  <div class="left_menu hide">
     <nav class="navbar-default navbar-static-side" role="navigation">
       <div class="sidebar-collapse" :class="{'hide': !sideBarStatus}">
         <ul class="nav metismenu" id="side-menu">

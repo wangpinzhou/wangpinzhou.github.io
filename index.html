@@ -67,14 +67,16 @@
 
     <div id="showAllRouter" style="display:none; justify-content:space-around;padding:10px;">
       <div v-for="(item, i) in menuList" :key="i" style="flex:1; padding:5px;margin-top:10px;" class="showAllRouter">
-        <h3 class="bg-danger text-center showAllRouter-handle">{{ item.item }}</h3>
-        <div v-for="(subitem, j) in item.list" :key="j" style="border:1px solid #ccc;margin-top:10px">
-          <h4 class="bg-info routerSort-handle" class="routerSort"> {{ subitem.title }}</h4>
+        <h3 class="bg-danger text-center showAllRouter-handle">{{ item.name }}</h3>
+        <a href="javascript:;" v-for="(sub,k) in item.children" class="label label-info routers"
+          @click="linkto(item.path + sub.path)" style="margin:6px">{{sub.name}}</a>
+ <!--        <div v-for="(subitem, j) in item.children" :key="j" style="border:1px solid #ccc;margin-top:10px">
+          <h4 class="bg-info routerSort-handle" class="routerSort"> {{ subitem.name }}</h4>
           <div class="routerSort2">
             <a href="javascript:;" v-for="(sub,k) in subitem.subList" class="label label-info routers"
-              @click="linkto(sub.to)" style="margin:2px">{{sub.title}}</a>
+              @click="linkto(item.path + sub.path)" style="margin:2px">{{sub.name}}</a>
           </div>
-        </div>
+        </div> -->
       </div>
 
     </div>
@@ -113,6 +115,8 @@
   <script src="//unpkg.com/wangeditor/release/wangEditor.min.js"></script>
   <script src="https://cdn.bootcss.com/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
   <script src="https://cdn.bootcss.com/echarts/4.7.0/echarts.min.js"></script>
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/fabric.js/4.0.0-beta.5/fabric.js"></script>
 
   <script src="https://cdn.bootcss.com/keymaster/1.6.1/keymaster.min.js"></script>
   <script src="https://cdn.bootcss.com/Sortable/1.10.1/Sortable.min.js"></script>
