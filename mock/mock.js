@@ -1,10 +1,10 @@
 Mock.mock(/table\.json/, {
   "status": "success",
-  "msg": "",
+  "msg": "msg",
   "data": {
     "skuList": {
       "pageCount": 1,
-      "rowList|10-100": [{
+      "rowList|10-30": [{
         "id": '@id',
         "cword": '@cword(2,3)',
         "date": '@date()',

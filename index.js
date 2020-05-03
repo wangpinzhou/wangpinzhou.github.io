@@ -31,6 +31,8 @@ $(function () {
         { to: '/w_css', val: 'CSS' },
         { to: '/w_js', val: 'JS' },
         { to: '/w_cj', val: '插件' },
+        { to: '/w_vue', val: 'vue' },
+        { to: '/w_utils', val: '工具' },
       ],
       
       layer: null,

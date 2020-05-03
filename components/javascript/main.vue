@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>element UI</h2>
     <ol class="breadcrumb">
       <li>
         <a href="#">Home</a>
@@ -16,6 +17,7 @@
       </div>
       <table id="table"></table>
     </div>
+
   </div>
 </template>
 
