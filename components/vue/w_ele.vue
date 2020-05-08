@@ -5,7 +5,7 @@
       <p>欢迎使用 Element</p>
     </el-dialog>-->
 
-    <el-tabs tab-position="top" style="height: 100%;">
+    <el-tabs tab-position="top" style="height: 100%;" value="table">
       <el-tab-pane label="Layout 布局">
         Layout 布局
         <el-row>
@@ -67,7 +67,7 @@
           </el-col>
         </el-row>
       </el-tab-pane>
-      <el-tab-pane label="表格">
+      <el-tab-pane label="表格" name="table">
         <!-- 固定列 -->
         <el-table
           :data="tableData"
