@@ -6,6 +6,7 @@
       <button class="btn" id="mergeCells" @click="mergeCells">合并</button>
       <button class="btn" id="getSelect" @click="getSelect">获取选中行</button>
       <button class="btn" id="exportBtn" @click="exportBtn">导出csv</button>
+      <button class="btn" id="exportBtn2" @click="exportBtn2">使用xlsx导出excel</button>
     </div>
     <table
       id="bootstrapTable"
@@ -16,6 +17,22 @@
 </template>
 
 <script>
+// 加载 js css 文件;
+function loadjscssfile(filename, filetype = "js") {
+  if (filetype == "js") {
+    var fileref = document.createElement("script");
+    fileref.setAttribute("type", "text/javascript");
+    fileref.setAttribute("src", filename);
+  } else if (filetype == "css") {
+    var fileref = document.createElement("link");
+    fileref.setAttribute("rel", "stylesheet");
+    fileref.setAttribute("type", "text/css");
+    fileref.setAttribute("href", filename);
+  }
+  if (typeof fileref != "undefined") {
+    document.getElementsByTagName("head")[0].appendChild(fileref);
+  }
+}
 module.exports = {
   // data() {
   //   // return {
@@ -26,6 +43,9 @@ module.exports = {
     return {
       list: [{}]
     };
+  },
+  created() {
+    loadjscssfile("https://cdn.bootcss.com/xlsx/0.15.1/xlsx.full.min.js", "js");
   },
   mounted() {
     this.initBootstrapTable();
@@ -135,6 +155,49 @@ module.exports = {
       // console.log(header, headerList, that.list);
       that.exportJsonToExcel(header, headerList, that.list);
       layer.msg("导出完成");
+    },
+    exportBtn2() {
+      console.log("exportBtn2");
+
+      var columns = $("#bootstrapTable")
+        .bootstrapTable("getOptions")
+        .columns[0].filter(function(v) {
+          if (v.rowspan == 2) {
+            return v;
+          }
+        });
+
+      columns.pop();
+      columns.shift();
+      columns.shift();
+
+      var columns = columns.concat(
+        $("#bootstrapTable").bootstrapTable("getOptions").columns[1]
+      );
+
+      var header = columns.map(function(v) {
+        return v.title;
+      });
+      // .join();
+
+      var headerList = columns.map(function(v) {
+        return v.field;
+      });
+
+      var data = this.list.map(function(v, i) {
+        var o = [];
+        headerList.forEach(function(x) {
+          o.push(v[x]);
+        });
+        return o;
+      });
+
+      data.unshift(header);
+      var workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.aoa_to_sheet(data);
+      XLSX.utils.book_append_sheet(workbook, worksheet, "sheet名称");
+      // 5.调起下载
+      XLSX.writeFile(workbook, "aoa.xlsx");
     },
 
     mergeCells() {
@@ -602,14 +665,12 @@ module.exports = {
               },
               events: {
                 "change .qty3": function(e, value, row, index) {
-
                   // 这个方法 更新后会刷新table 更新关联的计算数据;  需要计算的使用这个;
                   $("#bootstrapTable").bootstrapTable("updateCellByUniqueId", {
                     id: row.id,
                     field: "qty3",
-                    value:  e.target.value
+                    value: e.target.value
                   });
-
 
                   // row["qty3"] = e.target.value; //不需要计算的使用这个; 使用这个写法 可以避免 添加行 或 表头排序后 数据丢失; 但是 不会 更新关联的数据;
                   // 更新数据后 对应关联的数据计算 如 合计没有更新 ; 用refresh 方法 会重新请求 用 load 方法 也会刷新表格 回到第一行 如下 修改最后一行测试;

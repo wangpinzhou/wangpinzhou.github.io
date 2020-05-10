@@ -63,6 +63,7 @@ const routes = [
       { path: 'w_cj_chart', name: '图表', component: httpVueLoader('./components/cj/w_cj_chart.vue') },
       { path: 'w_cj_fabric', name: 'fabric', component: httpVueLoader('./components/cj/w_cj_fabric.vue') },
       { path: 'w_cj_tour', name: 'tour', component: httpVueLoader('./components/cj/w_cj_tour.vue') },
+      { path: 'w_cj_xlsx', name: 'js-xlsx', component: httpVueLoader('./components/cj/w_cj_xlsx.vue') },
 
       // ...其他子路由
     ]

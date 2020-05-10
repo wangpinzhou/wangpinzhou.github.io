@@ -34,9 +34,9 @@ $(function () {
         { to: '/w_vue', val: 'vue' },
         { to: '/w_utils', val: '工具' },
       ],
-      
+
       layer: null,
-      menuList : [],
+      menuList: [],
 
       fullscreen: false,
 
@@ -47,7 +47,7 @@ $(function () {
       that = this;
       that.initKeyMaster();
       that.menuList = this.$router.options.routes,
-      console.log('===============');
+        console.log('===============');
       console.log(this.$router.options.routes);
       // console.log(this.$router);
       // console.log(this.$route);
@@ -244,6 +244,11 @@ $(function () {
 
 
 
+
 })
+
+
+
+
 
 
