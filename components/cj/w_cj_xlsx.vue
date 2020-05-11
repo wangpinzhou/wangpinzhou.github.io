@@ -89,6 +89,43 @@ XLSX.utils.book_append_sheet(workbook,worksheet,'sheet名称')
 XLSX.writeFile(workbook,'表格名称.xlsx')
 
 </pre>
+
+    <hr />
+    <button class="btn btn-info" @click="export2222">不用插件导出 excel 文件</button>
+    <div class="text-danger">可以导出单元格合并, 样式 图片 但是样式必须是行内样式;</div>
+    <div id="table2222">
+      <table border="1">
+        <tr>
+          <th style="width:100px; height:100px;background:#eee;" colspan="2">1</th>
+          <th style="width:100px; height:100px;background:#eee;">3</th>
+        </tr>
+        <tr>
+          <td style="width:100px; height:100px;background:#eee;">1</td>
+          <td style="width:100px; height:100px;background:#eee;">2</td>
+          <td style="width:100px; height:100px;background:#eee;">3</td>
+        </tr>
+        <tr>
+          <td style="width:100px; height:100px;background:#eee;">
+            <img
+              src="https://s.cdpn.io/profiles/user/2299556/80.jpg?1574072282"
+              style="width:100%;height:100%"
+            />
+          </td>
+          <td style="width:100px; height:100px;background:#eee;">
+            <img
+              src="https://s.cdpn.io/profiles/user/2299556/80.jpg?1574072282"
+              style="width:100%;height:100%"
+            />
+          </td>
+          <td style="width:100px; height:100px;background:#eee;">
+            <img
+              src="https://s.cdpn.io/profiles/user/2299556/80.jpg?1574072282"
+              style="width:100%;height:100%"
+            />
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -184,7 +221,68 @@ module.exports = {
       XLSX.writeFile(workbook, "json.xlsx");
     };
   },
-  methods: {}
+  methods: {
+    export2222() {
+      layer.msg("原生导出excel");
+      // console.log();
+
+      exportFile({
+        data: outputTableHtml(table),
+        fileName: "测试导出.xls",
+        opt: { type: "application/vnd.ms-excel" }
+      });
+
+      //关键代码如下
+      function exportFile(exportObj) {
+        // 创建可下载链接
+        let eleLink = document.createElement("a");
+        eleLink.download = exportObj.fileName || "";
+        eleLink.style.display = "none";
+        eleLink.target = "blank";
+        if (!exportObj.href) {
+          // 字符内容转变成blob地址
+          let blob = new Blob([exportObj.data], exportObj.opt);
+          exportObj.href = URL.createObjectURL(blob);
+        }
+        eleLink.href = exportObj.href;
+        eleLink.click(); // 触发点击
+      }
+
+      //返回一个完整的html页面，此处为简写
+      function outputTableHtml(table) {
+        // console.log($("#table2222").html());
+        return $("#table2222").html();
+        //       return;
+        //       let html = `
+        //   <table border="1">
+        //     <thead>
+        //       <tr>
+        //         ${table.tableHead
+        //           .map(item => `<th>${item.label || item.name}</th>`)
+        //           .join("")}
+        //       </tr>
+        //     </thead>
+        //     <tbody>
+        //       ${table.tableData
+        //         .map(
+        //           r =>
+        //             `<tr>${table.tableHead
+        //               .map(
+        //                 c =>
+        //                   `<td style="mso-number-format:'\@'">${
+        //                     r[c.name] == undefined ? "" : r[c.name]
+        //                   }</td>`
+        //               )
+        //               .join("")}</tr>`
+        //         )
+        //         .join("")}
+        //     </tbody>
+        //   </table>
+        // `;
+        return html;
+      }
+    }
+  }
 };
 </script>
 

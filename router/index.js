@@ -5,7 +5,7 @@
 // 或者，只是一个组件配置对象。
 // 我们晚点再讨论嵌套路由。
 const routes = [
-  { path: '/', component: httpVueLoader('./components/vue/w_ele.vue'),},
+  // { path: '/', component: httpVueLoader('./components/vue/w_ele.vue'),},
   {
     name : 'HTML',
     path: '/w_html/', component: httpVueLoader('./components/html/w_html.vue'),
